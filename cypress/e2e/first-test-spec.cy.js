@@ -12,5 +12,5 @@ it('first test', () => {
 
     cy.contains('Active').click()
     cy.contains('Active').should('have.class', 'selected').and('be.visible')
-    cy.get('.todo-count').contains('2').should('be.visible')
+    cy.get('.todo-count').contains('2').should('not.be.visible')
 });
