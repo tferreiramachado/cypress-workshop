@@ -1,5 +1,5 @@
 name: E2E Cypress Tests
-on: workflow_dispatch
+on: [workflow_dispatch, push]
 jobs:
     cypress-run:
         runs-on: ubuntu-latest
@@ -7,5 +7,21 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v4
 
-            - name: Run Cypress Tests
+            - name: Run Cypress Tests with Chrome
               uses: cypress-io/github-action@v6
+              with:
+                browser: chrome
+                spec: 'cypress/e2e/first-test-spec.cy.js'
+
+            - name: Run Cypress Tests with Firefox
+              uses: cypress-io/github-action@v6
+              with:
+                browser: firefox
+                spec: 'cypress/e2e/api-test-spec.cy.js'
+
+            - name: Upload Cypress Test Screenshots
+              uses: actions/upload-artifact@v4
+              if: failure()
+              with:
+                name: cypress-screenshots
+                path: cypress/screenshots
